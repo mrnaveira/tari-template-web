@@ -18,15 +18,10 @@ import {
   fromWorkspace,
   buildTransactionRequest,
   submitAndWaitForTransaction,
-  AccountTemplate,
 } from "@tari-project/tarijs";
 import { Template } from "./templates/Template.ts";
 import { SubmitTxResult } from "@tari-project/tarijs/dist/builders/types/TransactionResult";
-/** 
-//TODO add if exports from tari.js are updated
-import { templates } from "@tari-project/tarijs";
-const { AccountTemplate } = templates;
-*/
+import { AccountTemplate } from "@tari-project/tarijs/dist/templates/Account";
 
 export async function getTemplateDefinition<T extends TariProvider>(
   provider: T,

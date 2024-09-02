@@ -40,7 +40,14 @@ import Container from "@mui/material/Container";
 import Breadcrumbs from "../components/Breadcrumbs";
 import {breadcrumbRoutes} from "../App";
 import Grid from "@mui/material/Grid";
-import {TariConnectButton} from "../connect/TariConnectButton.tsx";
+import { TariConnectButton } from "@tari-project/tari-connector-button/src";
+import useTariProvider from "../store/provider";
+import { TariProvider } from "@tari-project/tarijs";
+
+const SIGNALING_SERVER_URL = import.meta.env.VITE_SIGNALING_SERVER_ADDRESS || "http://localhost:9100";
+const SNAP_ID = import.meta.env.VITE_SNAP_ORIGIN || "local:http://localhost:8080";
+const WALLET_CONNECT_PROJECT_ID = import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || null;
+
 
 const drawerWidth = 300;
 
@@ -96,6 +103,15 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Layout() {
   const [open, setOpen] = useState(false);
+  const providerStore = useTariProvider();
+
+  const getProvider = () => {
+    return providerStore.provider;
+  }
+
+  const setProvider = (p: TariProvider) => {
+    providerStore.setProvider(p);
+  }
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -136,7 +152,13 @@ export default function Layout() {
             <Link to="/">
               <Logo/>
             </Link>
-            <TariConnectButton />
+            <TariConnectButton
+              getProvider={getProvider}
+              setProvider={setProvider}
+              signalingServerUrl={SIGNALING_SERVER_URL}
+              snapId={SNAP_ID}
+              walletConnectProjectId={WALLET_CONNECT_PROJECT_ID}
+            />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
